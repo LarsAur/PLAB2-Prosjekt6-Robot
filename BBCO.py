@@ -1,11 +1,11 @@
-class bbco():
+class BBCO():
 
     def __init__(self):
         self.behaviors = []
-        self.active_bahaviors = []
+        self.active_behaviors = []
         self.sensobs = []
         self.motobs = []
-        self.arbitor = Arbitor()
+        self.arbitor = Arbitrator(self)
 
     def add_behavior(self, behavior):
         pass
