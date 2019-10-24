@@ -27,4 +27,7 @@ class BBCON:
 
     def run_one_timestep(self):
         for sensob in self.sensobs:
-            sensob.update
+            sensob.update()
+
+        for motob in self.motobs:
+

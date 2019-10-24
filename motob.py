@@ -1,6 +1,10 @@
+class Motob:
+    def __init__(self):
+        self.motors = []
+        self.value = []
 
-class Motob():
+    def update(self, value):
+        self.value = value
+        self.operationalize()
 
-def __init__(self, motors):
-    self.motors
-    self.value = 0
+    def operationalize(self):
