@@ -1,11 +1,11 @@
 class BBCON:
 
-    def __init__(self, arbitrator):
+    def __init__(self):
         self.behaviors = []
         self.active_behaviors = []
         self.sensobs = []
         self.motobs = []
-        self.arbitrator = arbitrator
+        self.arbitrator = Arbitrator(self)
 
     def add_behavior(self, behavior):
         self.behaviors.append(behavior)
@@ -28,6 +28,9 @@ class BBCON:
     def run_one_timestep(self):
         for sensob in self.sensobs:
             sensob.update()
+            """TODO: """
+            sensob.values
+        self.arbitrator.choose_action()
 
         for motob in self.motobs:
 
