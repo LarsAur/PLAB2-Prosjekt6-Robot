@@ -6,11 +6,11 @@ class Behavior():
     def __init__(self, bbcon, sensobs):
         self.bbcon = bbcon
         self.sensobs = sensobs
-        self.motor_recommendations
-        self.active_flag #boolean - er oppførselen aktiv eller inaktiv
-        self.halt_request #oppførsel kan be roboten om å stanse all aktivitet
-        self.match_degree #hvor mye oppførselen matcher nåværende forhold
-        self.weight
+        self.motor_recommendations = None
+        self.active_flag = None#boolean - er oppførselen aktiv eller inaktiv
+        self.halt_request = None#oppførsel kan be roboten om å stanse all aktivitet
+        self.match_degree = None#hvor mye oppførselen matcher nåværende forhold
+        self.weight = None
 
     def consider_deactivation(self):
         pass
@@ -40,11 +40,11 @@ class StayWithinLines(Behavior):
     def __init__(self, bbcon, sensobs):
         self.bbcon = bbcon
         self.sensobs = sensobs #tar inn objekter fra IR-sensor
-        self.motor_recommendations
+        self.motor_recommendations = None
         self.active_flag = False
         self.halt_request = False
-        self.match_degree
-        self.weight
+        self.match_degree = None
+        self.weight = None
 
 
     def consider_activation(self):
@@ -57,15 +57,15 @@ class StayWithinLines(Behavior):
         if self.consider_activation():
             self.active_flag = True
 
-        self.sense_and_act(self)
+        self.sense_and_act()
 
-        self.weight = self.match_degree * self.priority
+        self.weight = self.match_degree * StayWithinLines.PRIORITY
 
     def sense_and_act(self):
-        array = self.sensobs.get_value() #tar inn et array med 6 elementer
+        array = self.sensobs.values #tar inn et array med 6 elementer
         none_black = True
 
-        for i in len(array):
+        for i in range(len(array)):
             if array[i] > 0.3:
                 none_black = False
 

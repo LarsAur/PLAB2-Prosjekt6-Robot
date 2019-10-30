@@ -17,6 +17,8 @@ class Motob:
         letter = self.value[0].upper()
         val = self.value[1]
 
+        print("Got motor recomendation", self.value)
+
         assert(letter in ('B', 'F', 'L', 'R')) 
 
         # TODO needs change to what controlls duration and speed

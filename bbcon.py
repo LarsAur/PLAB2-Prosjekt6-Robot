@@ -1,4 +1,7 @@
+from Behavior import *
+from project6_supply.reflectance_sensors import ReflectanceSensors
 from arbitrator import Arbitrator
+from sensob import Sensob
 import time
 
 class BBCON:
@@ -33,6 +36,9 @@ class BBCON:
         for sensob in self.sensobs:
             sensob.update()
 
+        for behavior in self.active_behaviors:
+            behavior.update()
+
         halt, action = self.arbitrator.choose_action()
         if halt:
             self.halt = True
@@ -43,6 +49,14 @@ class BBCON:
         time.sleep(.5)
 
         for sensob in self.sensobs:
+            sensob.reset()
 
-
-
+if __name__ == "__main__":
+    controller = BBCON()
+    rs = ReflectanceSensors()
+    rsob = Sensob(rs)
+    swl = StayWithinLines(controller, rsob)
+    controller.add_behavior(swl)
+    controller.activate_behavior(swl)
+    while not controller.halt:
+        controller.run_one_timestep()
