@@ -6,9 +6,9 @@ class Behavior():
         self.bbcon = bbcon
         self.sensobs = sensobs
         self.motor_recommendations = None
-        self.active_flag = None#boolean - er oppførselen aktiv eller inaktiv
-        self.halt_request = None#oppførsel kan be roboten om å stanse all aktivitet
-        self.match_degree = None#hvor mye oppførselen matcher nåværende forhold
+        self.active_flag = None # boolean - er oppførselen aktiv eller inaktiv
+        self.halt_request = None # oppførsel kan be roboten om å stanse all aktivitet
+        self.match_degree = None # hvor mye oppførselen matcher nåværende forhold
         self.weight = None
 
     def consider_deactivation(self):

@@ -1,9 +1,10 @@
-from behavior import *
 from project6_supply.reflectance_sensors import ReflectanceSensors
+from project6_supply.zumo_button import ZumoButton
+from project6_supply.motors import Motors
+from behavior import *
 from arbitrator import Arbitrator
 from sensob import Sensob
 from motob import Motob
-from project6_supply.motors import Motors
 import time
 
 class BBCON:
@@ -55,13 +56,19 @@ class BBCON:
 
 if __name__ == "__main__":
     controller = BBCON()
+    print("Got to before zumo button")
+    zumobutton = ZumoButton()
+    print("Got to after zumo button")
     motob = Motob()
+    print("after motob")
     motob.motors.append(Motors())
     controller.motobs.append(motob)
+    print("after motob added to controller")
     rs = ReflectanceSensors()
     rsob = Sensob(rs)
     swl = StayWithinLines(controller, rsob)
     controller.add_behavior(swl)
     controller.activate_behavior(swl)
     while not controller.halt:
+        print("run")
         controller.run_one_timestep()
