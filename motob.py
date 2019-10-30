@@ -17,7 +17,7 @@ class Motob:
         letter = self.value[0].upper()
         val = self.value[1]
 
-        print("Got motor recomendation", self.value)
+        print("Got motor recommendation", self.value)
 
         assert(letter in ('B', 'F', 'L', 'R')) 
 

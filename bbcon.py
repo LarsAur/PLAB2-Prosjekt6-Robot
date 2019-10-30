@@ -2,6 +2,8 @@ from Behavior import *
 from project6_supply.reflectance_sensors import ReflectanceSensors
 from arbitrator import Arbitrator
 from sensob import Sensob
+from motob import Motob
+from project6_supply.motors import Motors
 import time
 
 class BBCON:
@@ -53,6 +55,9 @@ class BBCON:
 
 if __name__ == "__main__":
     controller = BBCON()
+    motob = Motob()
+    motob.motors.append(Motors())
+    controller.motobs.append(motob)
     rs = ReflectanceSensors()
     rsob = Sensob(rs)
     swl = StayWithinLines(controller, rsob)
