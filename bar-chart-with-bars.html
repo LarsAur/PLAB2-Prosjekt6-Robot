@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Tax forms: Bar chart with lines</title>
+  <meta charset="UTF-8">
+  <script src="taxForms.js"></script>
+</head>
+
+<body>
+
+  <canvas id="chart" width="700" height="550"></canvas>
+
+  <script>
+    const canvas = document.getElementById('chart');
+    const context = canvas.getContext('2d');
+
+    /* Draw a line from (fromX, fromY) to (toX, toY) */
+    function drawLine(fromX, fromY, toX, toY) {
+      context.beginPath();
+      context.moveTo(toX, toY);
+      context.lineTo(fromX, fromY);
+      context.stroke();
+    }
+
+    /* Draw a text (string) on (x, y) */
+    function drawText(text, x, y) {
+      context.fillStyle = 'black';
+      context.fillText(text, x, y);
+    }
+
+    /* Draw a text and with a line to its right */
+    function drawLineWithText(text, fromX, fromY, toX, toY) {
+      drawText(text, fromX - 50, fromY + 5); /*Edited from + 10 to + 5 to center the text*/
+      drawLine(fromX, fromY, toX, toY);
+    }
+
+    /* Insert your code here. */
+    function drawRectangle(x, y, width, height, color) {
+      context.fillStyle = color;
+      context.fillRect(x, y, width, height)
+    }
+
+    function drawBar(x, value, width, color) {
+      bar_height = (value/y_unit) * line_spacing
+      bar_y = canvas.height - bar_height
+      drawRectangle(x, bar_y, width, bar_height, color)
+    }
+
+    /*Drawing the lines in the bar-chart*/
+    const num_lines = 10;
+    const y_unit = 100000;
+    const line_spacing = (canvas.height / num_lines) - 1;
+    const graph_width = canvas.width - 100
+    for (i = 1; i <= num_lines; i++) {
+      let y_pos = canvas.height - (line_spacing * i);
+      drawLineWithText(y_unit * i, 50, y_pos, graph_width, y_pos);
+    }
+
+    /*Drawing rectangles with text onthe right*/
+    drawRectangle(canvas.width - 90, 10, 40, 25, "red")
+    drawRectangle(canvas.width - 90, 40, 40, 25, "blue")
+    drawText("Income", canvas.width - 40, 25)
+    drawText("Wealth", canvas.width - 40, 55)
+
+    /*Drawing the bars*/
+    for (i = 0; i < taxForms.length; i++) {
+      let space = i * 150 + 100
+      drawBar(space, taxForms[i].income, 50, "red")
+      drawBar(space + 55, taxForms[i].wealth, 50, "blue")
+    }
+
+  </script>
+</body>
+
+</html>
