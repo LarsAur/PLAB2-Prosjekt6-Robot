@@ -17,3 +17,6 @@ class Sensob:
         return self.values
         # values is an array with varying data types
         # depending on the sensor that is called
+
+    def reset(self):
+        self.values = []
