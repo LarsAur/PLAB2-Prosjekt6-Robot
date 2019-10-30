@@ -1,4 +1,4 @@
-from Behavior import *
+from behavior import *
 from project6_supply.reflectance_sensors import ReflectanceSensors
 from arbitrator import Arbitrator
 from sensob import Sensob

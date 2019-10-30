@@ -1,6 +1,5 @@
 """Ulike typer oppførsler roboten kan velge"""
 
-
 class Behavior():
 
     def __init__(self, bbcon, sensobs):
