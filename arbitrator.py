@@ -10,7 +10,7 @@ class Arbitrator():
         """selects the behavior from BBCONs active_behaviors with the highest weight and returns
             a tuple containing (halt_request, [motor_recommendations])"""
         selected_behavior = self.bbcon.active_behaviors[0]
-        for behavior in self.bbcon.behaviors:
+        for behavior in self.bbcon.active_behaviors:
             if behavior.weight > selected_behavior.weight:
                 selected_behavior = behavior
 
