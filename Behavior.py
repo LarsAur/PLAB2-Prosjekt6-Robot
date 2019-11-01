@@ -1,6 +1,5 @@
 """Ulike typer oppførsler roboten kan velge"""
 
-
 class Behavior():
     """Superklassen til oppførselen"""
 

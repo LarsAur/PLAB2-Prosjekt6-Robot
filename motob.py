@@ -2,6 +2,7 @@ class Motob:
     def __init__(self):
         self.motors = []
         self.value = []
+        print("motob init")
 
     def update(self, value):
         self.value = value
@@ -16,6 +17,8 @@ class Motob:
         # ('R', a)  Right angle
         letter = self.value[0].upper()
         val = self.value[1]
+
+        print("Got motor recommendation", self.value)
 
         assert(letter in ('B', 'F', 'L', 'R')) 
 

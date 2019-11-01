@@ -1,4 +1,10 @@
+from project6_supply.reflectance_sensors import ReflectanceSensors
+from project6_supply.zumo_button import ZumoButton
+from project6_supply.motors import Motors
+from behavior import *
 from arbitrator import Arbitrator
+from sensob import *
+from motob import Motob
 import time
 
 class BBCON:
@@ -33,6 +39,9 @@ class BBCON:
         for sensob in self.sensobs:
             sensob.update()
 
+        for behavior in self.active_behaviors:
+            behavior.update()
+
         halt, action = self.arbitrator.choose_action()
         if halt:
             self.halt = True
@@ -43,6 +52,38 @@ class BBCON:
         time.sleep(.5)
 
         for sensob in self.sensobs:
+            sensob.reset()
 
+if __name__ == "__main__":
+    controller = BBCON()
+    print("Got to before zumo button")
+    zumobutton = ZumoButton()
+    print("Got to after zumo button")
+    zumobutton.wait_for_press()
+    #Creating motob and adding Motors to the motob
+    motob = Motob()
+    motob.motors.append(Motors())
+    controller.motobs.append(motob)
+    print("after motob added to controller")
+    #Creating sensor objects
+    rs = ReflectanceSensors(True)
+    
+    #Creating sensobs
+    rsob = LineDetector(rs)
 
+    #Adding sensobs to controller
+    controller.sensobs.append(rsob)
 
+    #Creating behaviors
+    swl = StayWithinLines(controller, rsob)
+
+    #Adding behaviors
+    controller.add_behavior(swl)
+
+    #Adding active behaviors
+    controller.activate_behavior(swl)
+
+    #Starts the run
+    for i in range(10):
+        if(not controller.halt):
+            controller.run_one_timestep()
