@@ -56,15 +56,13 @@ class BBCON:
 
 if __name__ == "__main__":
     controller = BBCON()
-    print("Got to before zumo button")
     zumobutton = ZumoButton()
-    print("Got to after zumo button")
     zumobutton.wait_for_press()
     #Creating motob and adding Motors to the motob
     motob = Motob()
     motob.motors.append(Motors())
     controller.motobs.append(motob)
-    print("after motob added to controller")
+
     #Creating sensor objects
     rs = ReflectanceSensors(True)
     
