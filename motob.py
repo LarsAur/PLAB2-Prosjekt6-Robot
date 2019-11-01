@@ -2,6 +2,7 @@ class Motob:
     def __init__(self):
         self.motors = []
         self.value = []
+        print("motob init")
 
     def update(self, value):
         self.value = value

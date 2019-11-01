@@ -3,7 +3,7 @@ from project6_supply.zumo_button import ZumoButton
 from project6_supply.motors import Motors
 from behavior import *
 from arbitrator import Arbitrator
-from sensob import Sensob
+from sensob import *
 from motob import Motob
 import time
 
@@ -59,16 +59,31 @@ if __name__ == "__main__":
     print("Got to before zumo button")
     zumobutton = ZumoButton()
     print("Got to after zumo button")
+    zumobutton.wait_for_press()
+    #Creating motob and adding Motors to the motob
     motob = Motob()
-    print("after motob")
     motob.motors.append(Motors())
     controller.motobs.append(motob)
     print("after motob added to controller")
-    rs = ReflectanceSensors()
-    rsob = Sensob(rs)
+    #Creating sensor objects
+    rs = ReflectanceSensors(True)
+    
+    #Creating sensobs
+    rsob = LineDetector(rs)
+
+    #Adding sensobs to controller
+    controller.sensobs.append(rsob)
+
+    #Creating behaviors
     swl = StayWithinLines(controller, rsob)
+
+    #Adding behaviors
     controller.add_behavior(swl)
+
+    #Adding active behaviors
     controller.activate_behavior(swl)
-    while not controller.halt:
-        print("run")
-        controller.run_one_timestep()
+
+    #Starts the run
+    for i in range(10):
+        if(not controller.halt):
+            controller.run_one_timestep()

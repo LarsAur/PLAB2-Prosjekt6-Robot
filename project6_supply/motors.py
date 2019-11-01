@@ -3,7 +3,6 @@ from time import sleep
 import RPi.GPIO as GPIO
 import wiringpi as wp
 
-
 class Motors():
     def __init__(self):
         self.setup()
@@ -24,7 +23,6 @@ class Motors():
 
         self.freq = 400  # PWM frequency
         self.dc = 0  # Duty cycle
-        print("Completed setting up motors!")
 
     # For the following motion commands, the speed is in the range [-1, 1], indicating the fraction of the maximum
     # speed, with negative values indicating that the wheel will spin in reverse. The argument "dur" (duration)

@@ -61,19 +61,21 @@ class StayWithinLines(Behavior):
         self.weight = self.match_degree * StayWithinLines.PRIORITY
 
     def sense_and_act(self):
-        array = self.sensobs.values #tar inn et array med 6 elementer
+        array = self.sensobs.values[0] #tar inn et array med 6 elementer
         none_black = True
 
+        print(array)
+
         for i in range(len(array)):
-            if array[i] > 0.3:
+            if array[i] < -1:
                 none_black = False
 
         if none_black:
-            self.motor_recommendations = ('F', 1)
+            self.motor_recommendations = ('F', 0.2)
             self.match_degree = 3
 
         else:
-            darkest_area = array.min()
+            darkest_area = min(array)
 
             if array.index(darkest_area) == 0 | array.index(darkest_area) == 1 | array.index(darkest_area) == 2:
                 self.motor_recommendations = ('R', 30)
@@ -83,7 +85,7 @@ class StayWithinLines(Behavior):
 
             self.match_degree = 3
 
-        return
+        return self.motor_recommendations
 
 
 
