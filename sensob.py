@@ -34,6 +34,7 @@ class LineDetector(Sensob):
 
     def update(self):
         super().update()
+        self.values = self.sensor_values
         # converting value of the sensors (low number is black) to indicate if there
         # is a line on the right: 'R' left: 'L', front: 'F' or no line 'N'
         threshhold = 0.7
@@ -45,3 +46,17 @@ class LineDetector(Sensob):
             self.value = "R"
         else:
             self.value = "N"
+            print("NO line")
+
+class DistanceSensor(Sensob):
+    """ """
+    def __init__(self, distanceSensor):
+        super.__init__([distanceSensor])
+
+    def update(self):
+        super().update()
+        self.value = self.sensor_values[0]
+
+    def reset(self):
+        self.sensor_values = None
+        self.value = None
