@@ -2,95 +2,166 @@
 
 
 class Behavior():
+    """Superklassen til oppførselen"""
 
-    def __init__(self, bbcon, sensobs):
+    def __init__(self, bbcon, sensob):
         self.bbcon = bbcon
-        self.sensobs = sensobs
-        self.motor_recommendations
-        self.active_flag #boolean - er oppførselen aktiv eller inaktiv
-        self.halt_request #oppførsel kan be roboten om å stanse all aktivitet
-        self.match_degree #hvor mye oppførselen matcher nåværende forhold
-        self.weight
+        self.sensob = sensob
+        self.motor_recommendations = None
+        self.active_flag = False  # boolean - er oppførselen aktiv eller inaktiv
+        self.halt_request = False  # oppførsel kan be roboten om å stanse all aktivitet
+        self.match_degree = None  # hvor mye oppførselen matcher nåværende forhold
+        self.weight = None
 
     def consider_deactivation(self):
-        pass
+        """Sjekker om oppførselen bør deaktiveres"""
 
     def consider_activation(self):
-        pass
+        """Sjekker om oppførselen bør aktiveres"""
 
     def update(self):
         """interface mellom bbcon og behavior"""
-        #oppdaterer aktivitetsstatus
-        #self.sense_and_act()
-        #self.weight = self.priority * self.match_degree
-
-        pass
 
     def sense_and_act(self):
-        #benytter sensob-verdier til å utføre motoranbefalinger
-        #self.match_degree
-        pass
+        """Gir motor recommendations utifra info fra sensobs"""
 
 
 class StayWithinLines(Behavior):
     """Holder seg innenfor den svarte linjen"""
 
-    PRIORITY = 3
+    PRIORITY = 2
 
-    def __init__(self, bbcon, sensobs):
-        self.bbcon = bbcon
-        self.sensobs = sensobs #tar inn objekter fra IR-sensor
-        self.motor_recommendations
-        self.active_flag = False
-        self.halt_request = False
-        self.match_degree
-        self.weight
-
+    def __init__(self, bbcon, sensob):
+        super.__init__()
 
     def consider_activation(self):
+        """Skal alltid være aktiv"""
         return True
 
     def consider_deactivation(self):
-        pass
+        """Skal aldri deaktiveres"""
+        return False
 
     def update(self):
-        if self.consider_activation():
-            self.active_flag = True
+        """Setter flagget til aktiv, kaller beregninger, setter vekt"""
+        self.active_flag = True
 
-        self.sense_and_act(self)
+        self.sense_and_act()
 
-        self.weight = self.match_degree * self.priority
+        self.weight = self.match_degree * StayWithinLines.PRIORITY
 
     def sense_and_act(self):
-        array = self.sensobs.get_value() #tar inn et array med 6 elementer
-        none_black = True
+        """Beregner riktig oppførsel og setter motor_recommendations"""
 
-        for i in len(array):
-            if array[i] > 0.3:
-                none_black = False
+        value = self.sensob.value
 
-        if none_black:
+        if value == 'L':
+            self.motor_recommendations = ('R', 30)
+            self.match_degree = 2
+
+        elif value == 'R':
+            self.motor_recommendations = ('L', 30)
+            self.match_degree = 2
+
+        elif value == 'F':
+            self.motor_recommendations = ('R', 90)
+            self.match_degree = 3
+
+        elif value == 'N':
             self.motor_recommendations = ('F', 1)
-            self.match_degree = 3
+            self.match_degree = 1
 
+
+class DoNotCrash(Behavior):
+    """Hindrer at roboten kjører inn i ting"""
+
+    PRIORITY = 3
+
+    def __init__(self, bbcon, sensob):
+        super().__init__()  # tar in US som måler avstand i cm
+
+    def consider_deactivation(self):
+        """Deaktiveres når rødt objekt foran"""
+        if self.bbcon.redObject:
+            return True
+        return False
+
+    def consider_activation(self):
+        """Aktiv dersom ikke rødt objekt foran"""
+        if self.bbcon.redObject:
+            return False
+        return True
+
+    def update(self):
+        """Setter aktivt flagg, handler"""
+        if self.consider_deactivation():
+            self.active_flag = False
         else:
-            darkest_area = array.min()
+            self.active_flag = True
 
-            if array.index(darkest_area) == 0 | array.index(darkest_area) == 1 | array.index(darkest_area) == 2:
-                self.motor_recommendations = ('R', 30)
+        self.sense_and_act()
+        self.weight = self.match_degree * DoNotCrash.PRIORITY
 
-            elif array.index(darkest_area) == 3 | array.index(darkest_area) == 4 | array.index(darkest_area) == 5:
-                self.motor_recommendations = ('L', 30)
+    def sense_and_act(self):
+        """Fortsetter å kjøre dersom rødt objekt eller ingenting foran"""
+        distance = self.sensob.value
 
+        if distance < 8:
+            if not self.bbcon.closeObject:
+                bbcon.closeObject = True
+                # fortsetter å kjøre, men med høy pri
+                self.motor_recommendations = ('F', 1)
+                self.match_degree = 3
+
+            if self.bbcon.closeObject:
+                if self.bbcon.redObject:  # dersom objektet er rødt, kjør
+                    self.motor_recommendations = ('F', 1)
+                    self.match_degree = 1
+                else:
+                    self.motor_recommendations = (
+                        'R', 45)  # hvis ikke, snu unna
+                    self.match_degree = 3
+
+        # hvis det ikke er noe foran, kjør
+        self.motor_recommendations = ('F', 1)
+        self.match_degree = 1
+
+
+class ChaseObject(Behavior):
+    """Følger etter røde objekter"""
+
+    PRIORITY = 1
+
+    def __init__(self, bbcon, sensob):
+        super().__init__()
+
+    def consider_activation(self):
+        """Aktiveres dersom det er objekter nærme"""
+        if self.bbcon.closeObject:
+            return True
+        return False
+
+    def consider_deactivation(self):
+        if self.bbcon.closeObject:
+            return False
+        return True
+
+    def update(self):
+        """Setter aktivt flagg, handler"""
+        if self.consider_activation():
+            self.active_flag = True
+        elif self.consider_deactivation():
+            self.active_flag = False
+
+        self.sense_and_act()
+        self.weight = self.match_degree * ChaseObject.PRIORITY
+
+
+    def sense_and_act(self):
+        """Hvis ser objektet, kjør"""
+        if self.bbcon.redObject:
+            self.motor_recommendations = ('F', 1) #hvis det ikke er noe foran, kjør
             self.match_degree = 3
-
-        return
-
-
-
-
-
-
-
-
-
+        else:
+            self.motor_recommendations = ('F', 1) #hvis det ikke er noe foran, kjør
+            self.match_degree = 1
