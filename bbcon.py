@@ -49,7 +49,7 @@ class BBCON:
         for motob in self.motobs:
             motob.update(action)
 
-        time.sleep(.1)
+        time.sleep(.5)
 
         for sensob in self.sensobs:
             sensob.reset()
@@ -85,3 +85,5 @@ if __name__ == "__main__":
     for i in range(20):
         if(not controller.halt):
             controller.run_one_timestep()
+
+        controller.motobs[0].update(('F', 0))

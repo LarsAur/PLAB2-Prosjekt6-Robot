@@ -36,20 +36,12 @@ class LineDetector(Sensob):
         super().update()
         # converting value of the sensors (low number is black) to indicate if there
         # is a line on the right: 'R' left: 'L', front: 'F' or no line 'N'
-
         threshhold = 0.7
-
-        print(self.sensor_values)
-
         if self.sensor_values[0][0] < threshhold and self.sensor_values[0][5] < threshhold:
             self.value = "F"
-            print("FRONT")
         elif self.sensor_values[0][0] < threshhold:
             self.value = "L"
-            print("line on L")
         elif self.sensor_values[0][5] < threshhold:
             self.value = "R"
-            print("line on R")
         else:
             self.value = "N"
-            print("NO line")
