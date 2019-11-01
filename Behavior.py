@@ -30,9 +30,6 @@ class StayWithinLines(Behavior):
 
     PRIORITY = 2
 
-    def __init__(self, bbcon, sensob):
-        super.__init__()
-
     def consider_activation(self):
         """Skal alltid være aktiv"""
         return True
@@ -67,7 +64,7 @@ class StayWithinLines(Behavior):
             self.match_degree = 3
 
         elif value == 'N':
-            self.motor_recommendations = ('F', 1)
+            self.motor_recommendations = ('F', 0.2)
             self.match_degree = 1
 
 
@@ -76,8 +73,7 @@ class DoNotCrash(Behavior):
 
     PRIORITY = 3
 
-    def __init__(self, bbcon, sensob):
-        super().__init__()  # tar in US som måler avstand i cm
+      # tar in US som måler avstand i cm
 
     def consider_deactivation(self):
         """Deaktiveres når rødt objekt foran"""
@@ -109,12 +105,12 @@ class DoNotCrash(Behavior):
             if not self.bbcon.closeObject:
                 bbcon.closeObject = True
                 # fortsetter å kjøre, men med høy pri
-                self.motor_recommendations = ('F', 1)
+                self.motor_recommendations = ('F', 0.2)
                 self.match_degree = 3
 
             if self.bbcon.closeObject:
                 if self.bbcon.redObject:  # dersom objektet er rødt, kjør
-                    self.motor_recommendations = ('F', 1)
+                    self.motor_recommendations = ('F', 0.2)
                     self.match_degree = 1
                 else:
                     self.motor_recommendations = (
@@ -122,7 +118,7 @@ class DoNotCrash(Behavior):
                     self.match_degree = 3
 
         # hvis det ikke er noe foran, kjør
-        self.motor_recommendations = ('F', 1)
+        self.motor_recommendations = ('F', 0.2)
         self.match_degree = 1
 
 
@@ -130,9 +126,6 @@ class ChaseObject(Behavior):
     """Følger etter røde objekter"""
 
     PRIORITY = 1
-
-    def __init__(self, bbcon, sensob):
-        super().__init__()
 
     def consider_activation(self):
         """Aktiveres dersom det er objekter nærme"""
@@ -159,8 +152,8 @@ class ChaseObject(Behavior):
     def sense_and_act(self):
         """Hvis ser objektet, kjør"""
         if self.bbcon.redObject:
-            self.motor_recommendations = ('F', 1) #hvis det ikke er noe foran, kjør
+            self.motor_recommendations = ('F', 0.2) #hvis det ikke er noe foran, kjør
             self.match_degree = 3
         else:
-            self.motor_recommendations = ('F', 1) #hvis det ikke er noe foran, kjør
+            self.motor_recommendations = ('F', 0.2) #hvis det ikke er noe foran, kjør
             self.match_degree = 1

@@ -7,7 +7,7 @@ class Sensob:
     def __init__(self, sensors):
         self.sensors = sensors
         self.sensor_values = None
-        self.values = None
+        self.value = None
 
     def update(self):
         """Retrieves the values from the sensor object(s) it is raw -
@@ -22,7 +22,7 @@ class Sensob:
 
     def reset(self):
         self.sensor_values = None
-        self.values = None
+        self.value = None
 
 
 class LineDetector(Sensob):
@@ -36,36 +36,20 @@ class LineDetector(Sensob):
         super().update()
         # converting value of the sensors (low number is black) to indicate if there
         # is a line on the right: 'R' left: 'L', front: 'F' or no line 'N'
-        right_mask = (1, 1, 1, -1, -1)
-        left_mask = (-1, -1, -1, 1, 1)
-        front_mask = (-1,-1,-1,-1,-1)
-        none_mask = (1, 1, 1, 1, 1)
 
-        right_mask_sum = 0
-        left_mask_sum = 0
-        front_mask_sum = 0
-        none_mask_sum = 0
-
-        for i in range(len(self.sensor_values)):
-            v = (self.sensor_values[0][i] - 0.5)
-            right_mask_sum += v * right_mask[i]
-            left_mask_sum += v * left_mask[i]
-            front_mask_sum += v * front_mask[i]
-            none_mask_sum += v * none_mask[i]
+        threshhold = 0.7
 
         print(self.sensor_values)
-        print((right_mask_sum, left_mask_sum, front_mask_sum, none_mask_sum))
 
-        max_mask_sum = max((right_mask_sum, left_mask_sum, front_mask_sum, none_mask_sum))
-
-        if max_mask_sum == right_mask_sum:
-            self.values = "R"
-        
-        if max_mask_sum == left_mask_sum:
-            self.values = "L"
-        
-        if max_mask_sum == front_mask_sum:
-            self.values = "F"
-        
-        if max_mask_sum == none_mask_sum:
-            self.values = "N"
+        if self.sensor_values[0][0] < threshhold and self.sensor_values[0][5] < threshhold:
+            self.value = "F"
+            print("FRONT")
+        elif self.sensor_values[0][0] < threshhold:
+            self.value = "L"
+            print("line on L")
+        elif self.sensor_values[0][5] < threshhold:
+            self.value = "R"
+            print("line on R")
+        else:
+            self.value = "N"
+            print("NO line")
