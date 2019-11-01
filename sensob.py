@@ -33,5 +33,12 @@ class LineDetector(Sensob):
     def update(self):
         super().update()
         self.values = self.sensor_values
-        
-        
+
+class DistanceSensor(Sensob):
+    """ """
+    def __init__(self, distanceSensor):
+        super.__init__([distanceSensor])
+
+    def update(self):
+        super().update()
+        self.values = self.sensor_values
