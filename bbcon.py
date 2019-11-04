@@ -3,8 +3,8 @@ from project6_supply.ultrasonic import Ultrasonic
 from project6_supply.zumo_button import ZumoButton
 from project6_supply.motors import Motors
 from Behavior import *
-from arbitrator import Arbitrator
 from sensob import *
+from arbitrator import Arbitrator
 from motob import Motob
 import time
 
@@ -83,14 +83,14 @@ if __name__ == "__main__":
     #Adding behaviors
     controller.add_behavior(swl)
     controller.add_behavior(dnc)
-            
+   
     #Adding active behaviors
     controller.activate_behavior(swl)
     controller.activate_behavior(dnc)
 
     #Starts the run
     for i in range(20):
-        if(not controller.halt):
+        if not controller.halt:
             controller.run_one_timestep()
 
     controller.motobs[0].update(('F', 0)) # turns of motor after the program is finished
