@@ -29,13 +29,15 @@ class BBCON:
         self.sensobs.append(sensob)
 
     def activate_behavior(self, behavior):
-        if behavior in self.behaviors:
+        if not behavior in self.active_behaviors:
+            print("ACTIVATING:", behavior)
             self.active_behaviors.append(behavior)
             return True
         return False
 
     def deactivate_behavior(self, active_behavior):
         if active_behavior in self.active_behaviors:
+            print("DEACTIVATING:", active_behavior)
             self.active_behaviors.remove(active_behavior)
             return True
         return False
@@ -60,7 +62,6 @@ class BBCON:
         time.sleep(.2)
 
         for sensob in self.sensobs:
-            print("RESET ALL")
             sensob.reset()
 
 if __name__ == "__main__":
@@ -107,7 +108,7 @@ if __name__ == "__main__":
     print("DEBUG: activating behaviors")
     controller.activate_behavior(swl)
     controller.activate_behavior(dnc)
-    controller.activate_behavior(chs)
+    #controller.activate_behavior(chs)
 
     #Starts the run
     for i in range(100):
