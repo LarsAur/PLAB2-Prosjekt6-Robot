@@ -112,19 +112,19 @@ class DoNotCrash(Behavior):
             if not self.bbcon.closeObject:
                 self.bbcon.closeObject = True
                 # fortsetter å kjøre, men med høy pri
-                self.motor_recommendations = ('F', 1)
+                self.motor_recommendations = ('F', 0.2)
                 self.match_degree = 3
 
             if self.bbcon.closeObject:
                 if self.bbcon.redObject:  # dersom objektet er rødt, kjør
-                    self.motor_recommendations = ('F', 1)
-                    self.match_degree = 1
+                    self.motor_recommendations = ('F', 0.2)
+                    self.match_degree = 0
                 else:
                     self.motor_recommendations = ('R', 45)  # hvis ikke, snu unna
                     self.match_degree = 3
 
         # hvis det ikke er noe foran, kjør
-        self.motor_recommendations = ('F', 1)
+        self.motor_recommendations = ('F', 0.2)
         self.match_degree = 1
 
 
