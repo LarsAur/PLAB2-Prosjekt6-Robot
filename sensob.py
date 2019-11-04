@@ -1,3 +1,5 @@
+from project6_supply.imager2 import Imager
+
 """The sensob (sensor object) superclass and subclass"""
 
 class Sensob:
@@ -64,14 +66,20 @@ class CheckColor(Sensob):
     def update(self):
         """Via the superclass update we now have an Image or Imager CHECK THIS
         object in self.sensor_values"""
-        super().update()
+        
+        if not self.sensors[0].value:
+            print(self.sensors[0])
+            self.sensor_values = self.sensors[0].update()
+
+
         colors = {0: "red",
                   1: "green",
                   2: "blue"}
         """A help-method to check for color"""
-        image_object = self.sensor_values[0]  # to shorten from self.sensor_values
-        resized_image = image_object.resize(30, 30)
-        wta_image = resized_image.map_color_wta()  # checks the difference between the rgb values. With a base threshold of 0.34. If no image is input, uses self.image
+        image_object = self.sensor_values  # to shorten from self.sensor_values
+        resized_image = image_object.resize((30, 30))
+        #wta_image = Imager.map_color_wta(image=resized_image)
+        #wta_image = resized_image.map_color_wta()  # checks the difference between the rgb values. With a base threshold of 0.34. If no image is input, uses self.image
         wta_image.get_image_dims()
         for i in range(wta_image.xmax):
             for j in range(wta_image.ymax):
