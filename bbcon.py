@@ -9,6 +9,7 @@ from motob import Motob
 import time
 
 class BBCON:
+    """Controller managing behaviors, sensobs and motobs, updating and resetting them"""
 
     def __init__(self):
         self.behaviors = []
