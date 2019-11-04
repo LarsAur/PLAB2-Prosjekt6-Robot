@@ -102,10 +102,12 @@ class DoNotCrash(Behavior):
     def sense_and_act(self):
         """Fortsetter å kjøre dersom rødt objekt eller ingenting foran"""
 
+        distance = self.sensob.value
+
         if distance < 6:
 
             if not self.bbcon.closeObject:
-                bbcon.closeObject = True
+                self.bbcon.closeObject = True
                 # fortsetter å kjøre, men med høy pri
                 self.motor_recommendations = ('F', 1)
                 self.match_degree = 3
