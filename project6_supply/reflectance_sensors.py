@@ -7,7 +7,7 @@ class ReflectanceSensors():
     # The constructor allows students to decide if they want to auto_calibrate
     # the robot, or if they want to hard code the min and max readings of the
     # reflectance sensors
-    def __init__(self, auto_calibrate=False, min_reading=100, max_reading=1000):
+    def __init__(self, auto_calibrate=False, min_reading=100, max_reading=3000):
         self.setup()
         if (auto_calibrate):
             # Calibration loop should last ~5 seconds
@@ -42,6 +42,7 @@ class ReflectanceSensors():
 
         # Set the mode to GPIO.BOARD
         GPIO.setmode(GPIO.BOARD)
+        self.reset()
 
 
     def calibrate(self):
@@ -94,8 +95,9 @@ class ReflectanceSensors():
 
 
     def reset(self):
+        print("DEBUG: reset ref sensors")
         self.updated = False
-        self.value = [-1.0, -1.0, -1.0, -1.0, -1.0, -1.0]
+        self.value = None
 
 
     # Function should return a list of 6 reals between 0 and 1.0 indicating
@@ -112,6 +114,7 @@ class ReflectanceSensors():
 
 
     def compute_value(self):
+        self.value = [-1.0, -1.0, -1.0, -1.0, -1.0, -1.0]
         self.recharge_capacitors()
         for pin in self.sensor_inputs:
             time = self.get_sensor_reading(pin)

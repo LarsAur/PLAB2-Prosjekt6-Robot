@@ -11,7 +11,9 @@ class Arbitrator():
             a tuple containing (halt_request, [motor_recommendations])"""
         selected_behavior = self.bbcon.active_behaviors[0]
         for behavior in self.bbcon.active_behaviors:
+            print("DEBUG: Behavior:", behavior, "weight: ", behavior.weight)
             if behavior.weight > selected_behavior.weight:
                 selected_behavior = behavior
 
+        print("DEBUG: Behavior selected:", selected_behavior, "weight: ", selected_behavior.weight)
         return (selected_behavior.halt_request, selected_behavior.motor_recommendations)

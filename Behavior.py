@@ -1,5 +1,6 @@
 """Ulike typer oppførsler roboten kan velge"""
 
+
 class Behavior():
     """Superklassen til oppførselen"""
 
@@ -28,7 +29,7 @@ class Behavior():
 class StayWithinLines(Behavior):
     """Holder seg innenfor den svarte linjen"""
 
-    PRIORITY = 2
+    PRIORITY = 100
 
     def consider_activation(self):
         """Skal alltid være aktiv"""
@@ -87,13 +88,14 @@ class DoNotCrash(Behavior):
             return False
         return True
 
+
     def update(self):
         """Setter aktivt flagg, handler"""
         if self.consider_deactivation():
             self.active_flag = False
         else:
             self.active_flag = True
-        
+
         self.sense_and_act()
         self.weight = self.match_degree * DoNotCrash.PRIORITY
 
@@ -149,7 +151,6 @@ class ChaseObject(Behavior):
 
         self.sense_and_act()
         self.weight = self.match_degree * ChaseObject.PRIORITY
-
 
     def sense_and_act(self):
         """Hvis ser objektet, kjør"""
