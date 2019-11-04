@@ -117,6 +117,7 @@ class DoNotCrash(Behavior):
 
             else:
                 if self.bbcon.redObject:  # dersom objektet er rødt, kjør
+                    print("RED OBJECT FORWARD")
                     self.motor_recommendations = ('F', 0.2)
                     self.match_degree = 0
                 else:

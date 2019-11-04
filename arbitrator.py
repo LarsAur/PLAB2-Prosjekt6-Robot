@@ -9,7 +9,6 @@ class Arbitrator():
     def choose_action(self):
         """selects the behavior from BBCONs active_behaviors with the highest weight and returns
             a tuple containing (halt_request, [motor_recommendations])"""
-        print(self.bbcon.active_behaviors)
         selected_behavior = self.bbcon.active_behaviors[0]
         for behavior in self.bbcon.active_behaviors:
             print("DEBUG: Behavior:", behavior, "weight: ", behavior.weight)

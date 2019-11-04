@@ -95,7 +95,6 @@ class ReflectanceSensors():
 
 
     def reset(self):
-        print("DEBUG: reset ref sensors")
         self.updated = False
         self.value = None
 

@@ -46,7 +46,6 @@ class LineDetector(Sensob):
             for sensor in self.sensors:
                 # Checks if the sensors value have
                 if not sensor.get_value():
-                    print("DEBUG: updating relfectance sensors")
                     sensor.update()
                 self.sensor_values.append(sensor.get_value())
 
@@ -62,8 +61,7 @@ class LineDetector(Sensob):
             else:
                 self.value = "N"
 
-        print("DEBUG: reflectance sensor: ", self.sensor_values[0])
-        print("DEBUG: line at: ", self.value)
+        
 
 # ****** CheckColor ******
 
