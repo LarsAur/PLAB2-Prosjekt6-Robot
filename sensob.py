@@ -1,4 +1,5 @@
 """The sensob (sensor object) superclass and subclass"""
+import numpy as np
 
 
 class Sensob:
@@ -25,6 +26,7 @@ class Sensob:
         self.sensor_values = None
         self.value = None
 
+
 # ****** LineDetector subclass ******
 
 class LineDetector(Sensob):
@@ -49,6 +51,7 @@ class LineDetector(Sensob):
             else:
                 self.value = "N"
 
+
 # ****** CheckColor ******
 
 
@@ -57,7 +60,8 @@ class CheckColor(Sensob):
 
     def __init__(self, cameraSensor, color):
         super.__init__(cameraSensor)
-        self.color = color                 # the color to search for
+        self.color = color  # the color to search for
+        self.color_array = []
 
     def update(self):
         """Via the superclass update we now have an Image or Imager CHECK THIS
@@ -66,17 +70,36 @@ class CheckColor(Sensob):
 
     def color_check(self):
         """A help-method to check for color"""
-        image_object = self.sensor_values            # to shorten from self.sensor_values
+        image_object = self.sensor_values  # to shorten from self.sensor_values
         resized_image = image_object.resize(30, 30)
-        wta_image = resized_image.map_color_wta()    # checks the difference between the rgb values. With a base threshold of 0.34. If no image is input, uses self.image
+        wta_image = resized_image.map_color_wta()  # checks the difference between the rgb values. With a base threshold of 0.34. If no image is input, uses self.image
         wta_image.get_image_dims()
         for i in range(wta_image.xmax):
             for j in range(wta_image.ymax):
-                wta_image.getpixel((i, j))
+                r, g, b = wta_image.getpixel(i, j)
+                if r > 40:
+                    self.color_array.append(0)
+                elif g > 40:
+                    self.color_array.append(1)
+                elif b > 40:
+                    self.color_array.append(2)
+        occurrences = np.bincount(self.color_array) #
+        self.color_array = [] heisann bård
+        if np.argmax(occurrences) == 0:
+            found_color = "red"
+        elif np.argmax(occurrences) == 1:
+            found_color = "green"
+        elif np.argmax(occurrences) == 2:
+            found_color = "blue"
+
+        if found_color == self.color:
+            return True
+        else:
+            return False
 
 
 class DistanceSensor(Sensob):
-    
+
     def __init__(self, distanceSensor):
         super.__init__([distanceSensor])
 
