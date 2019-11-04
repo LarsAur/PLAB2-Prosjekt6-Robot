@@ -71,7 +71,7 @@ class CheckColor(Sensob):
                   1: "green",
                   2: "blue"}
         """A help-method to check for color"""
-        image_object = self.sensor_values  # to shorten from self.sensor_values
+        image_object = self.sensor_values[0]  # to shorten from self.sensor_values
         resized_image = image_object.resize(30, 30)
         wta_image = resized_image.map_color_wta()  # checks the difference between the rgb values. With a base threshold of 0.34. If no image is input, uses self.image
         wta_image.get_image_dims()
@@ -86,9 +86,14 @@ class CheckColor(Sensob):
                     self.color_array[2] += 1
         found_color = self.color_array.index(max(self.color_array))
         if colors[found_color] == self.color:
-            return True
+            self.value = True
         else:
-            return False
+            self.value = False
+
+    def reset(self):
+        """To reset subclass parameters"""
+        super().reset()
+        self.color_array = [0, 0, 0]
 
 
 class DistanceSensor(Sensob):
