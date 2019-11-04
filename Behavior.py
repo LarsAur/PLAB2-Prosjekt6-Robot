@@ -42,6 +42,7 @@ class StayWithinLines(Behavior):
     def update(self):
         """Setter flagget til aktiv, kaller beregninger, setter vekt"""
         self.active_flag = True
+        self.bbcon.activate_behavior(self)
 
         self.sense_and_act()
 
@@ -93,8 +94,10 @@ class DoNotCrash(Behavior):
         """Setter aktivt flagg, handler"""
         if self.consider_deactivation():
             self.active_flag = False
+            self.bbcon.activate_behavior(self)
         else:
             self.active_flag = True
+            self.bbcon.deactivate_behavior(self)
 
         self.sense_and_act()
         self.weight = self.match_degree * DoNotCrash.PRIORITY
@@ -147,10 +150,12 @@ class ChaseObject(Behavior):
 
             self.active_flag = True
             self.bbcon.redObject = True
+            self.bbcon.activate_behavior(self)
 
         else:
             self.active_flag = False
             self.bbcon.redObject = False
+            self.bbcon.deactivate_behavior(self)
 
         self.sense_and_act()
         self.weight = self.match_degree * ChaseObject.PRIORITY
