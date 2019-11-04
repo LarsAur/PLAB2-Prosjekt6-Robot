@@ -77,38 +77,48 @@ class DoNotCrash(Behavior):
 
     def consider_deactivation(self):
         """Deaktiveres når rødt objekt foran"""
-                    
-        if self.sensob[0].value < 8 & self.sensob[1].value == True: #dersom både objekt nærme og rødt objekt
-        return True
+        if self.bbcon.redObject:
+            return True
         return False
 
     def consider_activation(self):
         """Aktiv dersom ikke rødt objekt foran"""
-        if self.sensob[1].value == False: #dersom både objekt nærme og rødt objekt
-            return True
-        return False
+        if self.bbcon.redObject:
+            return False
+        return True
 
     def update(self):
-    """Setter aktivt flagg, handler"""
+        """Setter aktivt flagg, handler"""
         if self.consider_deactivation():
             self.active_flag = False
         else:
             self.active_flag = True
         
-            self.sense_and_act()
-            self.weight = self.match_degree * DoNotCrash.PRIORITY
+        self.sense_and_act()
+        self.weight = self.match_degree * DoNotCrash.PRIORITY
 
     def sense_and_act(self):
-    """Fortsetter å kjøre dersom rødt objekt eller ingenting foran"""
-        distance = self.sensob[0].value
-        
-        if self.active_flag:
-            self.motor_recommendations = ('R', 45)  #snur unna
-            self.match_degree = 3
-    
-        else:
-            self.motor_recommendations = ('F', 0.2)
-            self.match_degree = 1
+        """Fortsetter å kjøre dersom rødt objekt eller ingenting foran"""
+
+        if distance < 6:
+
+            if not self.bbcon.closeObject:
+                bbcon.closeObject = True
+                # fortsetter å kjøre, men med høy pri
+                self.motor_recommendations = ('F', 1)
+                self.match_degree = 3
+
+            if self.bbcon.closeObject:
+                if self.bbcon.redObject:  # dersom objektet er rødt, kjør
+                    self.motor_recommendations = ('F', 1)
+                    self.match_degree = 1
+                else:
+                    self.motor_recommendations = ('R', 45)  # hvis ikke, snu unna
+                    self.match_degree = 3
+
+        # hvis det ikke er noe foran, kjør
+        self.motor_recommendations = ('F', 1)
+        self.match_degree = 1
 
 
 class ChaseObject(Behavior):
@@ -118,19 +128,22 @@ class ChaseObject(Behavior):
 
     def consider_activation(self):
         """Aktiveres dersom det er røde objekter nærme"""
-        if self.sensob[0] < 8 & self.sensob[1] == True: #dersom både objekt nærme og rødt objekt
+        if self.bbcon.closeObject & self.sensob.value == True: #dersom både objekt nærme og rødt objekt
             return True
         return False
 
     def consider_deactivation(self):
-        if self.sensob[0] > 8 | self.sensob[1] == False:
+        if not self.bbcon.closeObject:
             return True
         return False
 
     def update(self):
         """Setter aktivt flagg, handler"""
         if self.consider_activation():
+
             self.active_flag = True
+            self.bbcon.redObject = True
+
         elif self.consider_deactivation():
             self.active_flag = False
 
@@ -140,8 +153,10 @@ class ChaseObject(Behavior):
 
     def sense_and_act(self):
         """Hvis ser objektet, kjør"""
+
         if self.active_flag: #dersom aktiv: kjør
             self.motor_recommendations = ('F', 0.2)
             self.match_degree = 3
+
         else:   #dersom ikke aktiv: dårlig match
             self.match_degree = 1
