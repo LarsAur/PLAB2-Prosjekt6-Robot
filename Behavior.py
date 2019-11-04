@@ -121,12 +121,12 @@ class ChaseObject(Behavior):
 
     def consider_activation(self):
         """Aktiveres dersom det er røde objekter nærme"""
-        if self.sensob[0] < 8 & self.sensob[1] == True:  # dersom både objekt nærme og rødt objekt
+        if self.sensob[0].value < 8 and self.sensob[1].value == True:  # dersom både objekt nærme og rødt objekt
             return True
         return False
 
     def consider_deactivation(self):
-        if self.sensob[0] > 8 | self.sensob[1] == False:
+        if self.sensob[0].value > 8 or self.sensob[1].value == False:
             return True
         return False
 

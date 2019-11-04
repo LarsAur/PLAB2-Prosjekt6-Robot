@@ -17,7 +17,7 @@ class Sensob:
             self.sensor_values = []
             for sensor in self.sensors:
                 # Checks if the sensors value have
-                if sensor.get_value():
+                if not sensor.get_value():
                     sensor.update()
                 self.sensor_values.append(sensor.get_value())
 
