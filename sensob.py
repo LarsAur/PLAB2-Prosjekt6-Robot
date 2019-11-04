@@ -76,12 +76,12 @@ class CheckColor(Sensob):
                   2: "blue"}
         """A help-method to check for color"""
         image_object = Imager(image=self.sensor_values)  # to shorten from self.sensor_values
-        resized_image = image_object.resize((30, 30))
+        resized_image = image_object.resize(30, 30)
         wta_image = resized_image.map_color_wta()  # checks the difference between the rgb values. With a base threshold of 0.34. If no image is input, uses self.image
         wta_image.get_image_dims()
         for i in range(wta_image.xmax):
             for j in range(wta_image.ymax):
-                r, g, b = wta_image.getpixel(i, j)
+                r, g, b = wta_image.get_pixel(i, j)
                 if r > 40:
                     self.color_array[0] += 1
                 elif g > 40:
@@ -108,4 +108,5 @@ class DistanceSensor(Sensob):
     def update(self):
         """Reads from the ultrasonic sensor and sets the value to the distance in centimeters"""
         super().update()
+        print("DEBUG: Distance Sensor values ", self.sensor_values)
         self.value = self.sensor_values[0]

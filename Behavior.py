@@ -80,6 +80,7 @@ class DoNotCrash(Behavior):
         """Deaktiveres når rødt objekt foran"""
 
         # dersom både objekt nærme og rødt objekt
+        print(self.sensob)
         if self.sensob[0].value < 8 & self.sensob[1].value == True:
             return True
         return False
