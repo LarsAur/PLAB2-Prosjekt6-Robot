@@ -29,7 +29,7 @@ class Behavior():
 class StayWithinLines(Behavior):
     """Holder seg innenfor den svarte linjen"""
 
-    PRIORITY = 100
+    PRIORITY = 1
 
     def consider_activation(self):
         """Skal alltid være aktiv"""
