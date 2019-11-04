@@ -76,27 +76,31 @@ if __name__ == "__main__":
     print("DEBUG: init sensobs")
     line_sensob = LineDetector(reflectance_sensor)
     distance_sensob = DistanceSensor(ultrasonic_sensor)
-    camera_sensob = Camera()
-    
+    color_sensob = CheckColor(camara_sensor, "red")
+
     #Adding sensobs to controller
     print("DEBUG: appending sensobs")
     controller.sensobs.append(line_sensob)
     controller.sensobs.append(distance_sensob)
+    controller.sensobs.append(color_sensob)
 
     #Creating behaviors
     print("DEBUG: creating behaviors")
     swl = StayWithinLines(controller, line_sensob)
-    dnc = DoNotCrash(controller, [distance_sensob])
+    dnc = DoNotCrash(controller, [distance_sensob, color_sensob])
+    chs = ChaseObject(controller, color_sensob)
 
     #Adding behaviors
     print("DEBUG: adding behaviors")
     controller.add_behavior(swl)
     controller.add_behavior(dnc)
+    controller.add_behavior(chs)
    
     #Adding active behaviors
     print("DEBUG: activating behaviors")
     controller.activate_behavior(swl)
     controller.activate_behavior(dnc)
+    controller.activate_behavior(chs)
 
     #Starts the run
     for i in range(20):
