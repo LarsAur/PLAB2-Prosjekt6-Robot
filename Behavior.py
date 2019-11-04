@@ -109,10 +109,12 @@ class DoNotCrash(Behavior):
 
         if distance < 6:
 
+            print("CLOSE")
+
             if not self.bbcon.closeObject:
                 self.bbcon.closeObject = True
                 # fortsetter å kjøre, men med høy pri
-                self.motor_recommendations = ('F', 0.2)
+                self.motor_recommendations = ('F', 0)
                 self.match_degree = 3
 
             else:
@@ -123,10 +125,10 @@ class DoNotCrash(Behavior):
                 else:
                     self.motor_recommendations = ('R', 45)  # hvis ikke, snu unna
                     self.match_degree = 3
-
-        # hvis det ikke er noe foran, kjør
-        self.motor_recommendations = ('F', 0.2)
-        self.match_degree = 1
+        else:
+            # hvis det ikke er noe foran, kjør
+            self.motor_recommendations = ('F', 0.2)
+            self.match_degree = 1
 
 
 class ChaseObject(Behavior):

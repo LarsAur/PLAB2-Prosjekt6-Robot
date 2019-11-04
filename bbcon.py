@@ -111,9 +111,10 @@ if __name__ == "__main__":
     #controller.activate_behavior(chs)
 
     #Starts the run
-    for i in range(100):
+    for i in range(50):
         if not controller.halt:
             print("run")
             controller.run_one_timestep()
+            print("----------------------------------------------------")
 
     controller.motobs[0].update(('F', 0)) # turns of motor after the program is finished
