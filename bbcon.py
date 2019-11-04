@@ -19,6 +19,8 @@ class BBCON:
         self.motobs = []
         self.arbitrator = Arbitrator(self)
         self.halt = False
+        self.closeObject = False
+        self.redObject = False
 
     def add_behavior(self, behavior):
         self.behaviors.append(behavior)
@@ -39,8 +41,11 @@ class BBCON:
         return False
 
     def run_one_timestep(self):
-        for sensob in self.sensobs:
-            sensob.update()
+        #for sensob in self.sensobs:
+        #    sensob.update()
+
+        for behavior in self.active_behaviors:
+            behavior.sensob.update()
 
         for behavior in self.active_behaviors:
             behavior.update()
@@ -62,7 +67,7 @@ if __name__ == "__main__":
     controller = BBCON()
     zumobutton = ZumoButton()
     zumobutton.wait_for_press()
-    
+
     #Creating motob and adding Motors to the motob
     motob = Motob()
     motob.motors.append(Motors())
@@ -89,8 +94,8 @@ if __name__ == "__main__":
     #Creating behaviors
     print("DEBUG: creating behaviors")
     swl = StayWithinLines(controller, line_sensob)
-    dnc = DoNotCrash(controller, [distance_sensob, color_sensob])
-    chs = ChaseObject(controller, [distance_sensob, color_sensob])
+    dnc = DoNotCrash(controller, distance_sensob)
+    chs = ChaseObject(controller, color_sensob)
 
     #Adding behaviors
     print("DEBUG: adding behaviors")
