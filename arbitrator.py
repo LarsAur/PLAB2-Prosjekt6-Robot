@@ -14,4 +14,5 @@ class Arbitrator():
             if behavior.weight > selected_behavior.weight:
                 selected_behavior = behavior
 
+        print("DEBUG: Behavior selected:", selected_behavior)
         return (selected_behavior.halt_request, selected_behavior.motor_recommendations)

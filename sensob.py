@@ -68,7 +68,6 @@ class CheckColor(Sensob):
         object in self.sensor_values"""
         
         if not self.sensors[0].value:
-            print(self.sensors[0])
             self.sensor_values = self.sensors[0].update()
 
         colors = {0: "red",

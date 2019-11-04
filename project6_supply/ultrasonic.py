@@ -23,8 +23,6 @@ class Ultrasonic():
 
     def sensor_get_value(self):
 
-        print("DEBUG: getting distance sensor value")
-
         GPIO.setup(self.trig_pin, GPIO.OUT)
         GPIO.setup(self.echo_pin, GPIO.IN)
         self.send_activation_pulse()
