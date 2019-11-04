@@ -128,15 +128,15 @@ class ChaseObject(Behavior):
     PRIORITY = 1
 
     def consider_activation(self):
-        """Aktiveres dersom det er objekter nærme"""
-        if self.bbcon.closeObject:
+        """Aktiveres dersom det er røde objekter nærme"""
+        if self.sensob[0] < 8 & self.sensob[1] == True: #dersom både objekt nærme og rødt objekt
             return True
         return False
 
     def consider_deactivation(self):
-        if self.bbcon.closeObject:
-            return False
-        return True
+        if self.sensob[0] > 8 | self.sensob[1] == False:
+            return True
+        return False
 
     def update(self):
         """Setter aktivt flagg, handler"""
@@ -151,9 +151,8 @@ class ChaseObject(Behavior):
 
     def sense_and_act(self):
         """Hvis ser objektet, kjør"""
-        if self.bbcon.redObject:
-            self.motor_recommendations = ('F', 0.2) #hvis det ikke er noe foran, kjør
+        if self.active_flag: #dersom aktiv: kjør
+            self.motor_recommendations = ('F', 0.2)
             self.match_degree = 3
-        else:
-            self.motor_recommendations = ('F', 0.2) #hvis det ikke er noe foran, kjør
+        else:   #dersom ikke aktiv: dårlig match
             self.match_degree = 1

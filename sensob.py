@@ -61,9 +61,7 @@ class DistanceSensor(Sensob):
         super.__init__([distanceSensor])
 
     def update(self):
+        """"""
         super().update()
         self.value = self.sensor_values[0]
 
-    def reset(self):
-        self.sensor_values = None
-        self.value = None
