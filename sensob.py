@@ -38,7 +38,17 @@ class LineDetector(Sensob):
     def update(self):
         """Reads from the reflectance sesors and sets the value to indicate where there is a line
         'L' for left, 'R' for right, 'F' for front and 'N' if there is no line"""
-        super().update()
+        
+        if not self.sensor_values:
+            self.sensor_values = []
+            for sensor in self.sensors:
+                # Checks if the sensors value have
+                print("DEBUG: ", sensor.get_value())
+                if not sensor.get_value():
+                    sensor.update()
+                    print("DEBUG: updated reflectance sensor")
+                self.sensor_values.append(sensor.get_value())
+
         # converting value of the sensors (low number is black)
         if not self.value:
             threshhold = 0.7
@@ -50,6 +60,9 @@ class LineDetector(Sensob):
                 self.value = "R"
             else:
                 self.value = "N"
+
+        print("DEBUG: reflectance sensor: ", self.sensor_values[0])
+        print("DEBUG: line at: ", self.value)
 
 
 # ****** CheckColor ******

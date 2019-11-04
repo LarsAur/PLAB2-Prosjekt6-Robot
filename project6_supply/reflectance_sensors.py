@@ -95,7 +95,7 @@ class ReflectanceSensors():
 
     def reset(self):
         self.updated = False
-        self.value = [-1.0, -1.0, -1.0, -1.0, -1.0, -1.0]
+        self.value = None
 
 
     # Function should return a list of 6 reals between 0 and 1.0 indicating
@@ -112,6 +112,7 @@ class ReflectanceSensors():
 
 
     def compute_value(self):
+        self.value = [-1.0, -1.0, -1.0, -1.0, -1.0, -1.0]
         self.recharge_capacitors()
         for pin in self.sensor_inputs:
             time = self.get_sensor_reading(pin)
