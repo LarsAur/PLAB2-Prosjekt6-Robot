@@ -71,15 +71,13 @@ class CheckColor(Sensob):
             print(self.sensors[0])
             self.sensor_values = self.sensors[0].update()
 
-
         colors = {0: "red",
                   1: "green",
                   2: "blue"}
         """A help-method to check for color"""
-        image_object = self.sensor_values  # to shorten from self.sensor_values
+        image_object = Imager(image=self.sensor_values)  # to shorten from self.sensor_values
         resized_image = image_object.resize((30, 30))
-        #wta_image = Imager.map_color_wta(image=resized_image)
-        #wta_image = resized_image.map_color_wta()  # checks the difference between the rgb values. With a base threshold of 0.34. If no image is input, uses self.image
+        wta_image = resized_image.map_color_wta()  # checks the difference between the rgb values. With a base threshold of 0.34. If no image is input, uses self.image
         wta_image.get_image_dims()
         for i in range(wta_image.xmax):
             for j in range(wta_image.ymax):
