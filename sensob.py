@@ -59,7 +59,7 @@ class CheckColor(Sensob):
     """Takes a picture and evaluates it"""
 
     def __init__(self, cameraSensor, color):
-        super.__init__(cameraSensor)
+        super.__init__([cameraSensor])
         self.color = color  # the color to search for
         self.color_array = [0, 0, 0]  # "red", "green", "blue"
 
