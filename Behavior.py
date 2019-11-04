@@ -102,10 +102,12 @@ class DoNotCrash(Behavior):
     def sense_and_act(self):
         """Fortsetter å kjøre dersom rødt objekt eller ingenting foran"""
 
+        distance = self.sensob.value
+
         if distance < 6:
 
             if not self.bbcon.closeObject:
-                bbcon.closeObject = True
+                self.bbcon.closeObject = True
                 # fortsetter å kjøre, men med høy pri
                 self.motor_recommendations = ('F', 1)
                 self.match_degree = 3
@@ -135,7 +137,7 @@ class ChaseObject(Behavior):
         return False
 
     def consider_deactivation(self):
-        if not self.bbcon.closeObject:
+        if not self.bbcon.closeObject: #dersom ikke objekt nærme - deaktiveres
             return True
         return False
 
@@ -148,6 +150,7 @@ class ChaseObject(Behavior):
 
         elif self.consider_deactivation():
             self.active_flag = False
+            self.bbcon.redObject = False
 
         self.sense_and_act()
         self.weight = self.match_degree * ChaseObject.PRIORITY
