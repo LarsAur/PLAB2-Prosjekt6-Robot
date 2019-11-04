@@ -21,40 +21,33 @@ class Sensob:
                 self.sensor_values.append(sensor.get_value())
 
     def reset(self):
+        """Resets all values to none, such that they can be updated again"""
         self.sensor_values = None
         self.value = None
 
 # ****** LineDetector subclass ******
 
-
 class LineDetector(Sensob):
-    """Only require the reflectance sensor array"""
+    """Linedetector which require the reflectance sensors"""
 
     def __init__(self, reflectanceSensor):
         super().__init__([reflectanceSensor])
 
     def update(self):
-        """Is this necessary?"""
+        """Reads from the reflectance sesors and sets the value to indicate where there is a line
+        'L' for left, 'R' for right, 'F' for front and 'N' if there is no line"""
         super().update()
-        # converting value of the sensors (low number is black) to indicate if there
-        # is a line on the right: 'R' left: 'L', front: 'F' or no line 'N'
-
-        threshhold = 0.7
-
-        print(self.sensor_values)
-
-        if self.sensor_values[0][0] < threshhold and self.sensor_values[0][5] < threshhold:
-            self.value = "F"
-            print("FRONT")
-        elif self.sensor_values[0][0] < threshhold:
-            self.value = "L"
-            print("line on L")
-        elif self.sensor_values[0][5] < threshhold:
-            self.value = "R"
-            print("line on R")
-        else:
-            self.value = "N"
-            print("NO line")
+        # converting value of the sensors (low number is black)
+        if not self.value:
+            threshhold = 0.7
+            if self.sensor_values[0][0] < threshhold and self.sensor_values[0][5] < threshhold:
+                self.value = "F"
+            elif self.sensor_values[0][0] < threshhold:
+                self.value = "L"
+            elif self.sensor_values[0][5] < threshhold:
+                self.value = "R"
+            else:
+                self.value = "N"
 
 # ****** CheckColor ******
 
@@ -82,5 +75,12 @@ class CheckColor(Sensob):
                 wta_image.getpixel((i, j))
 
 
+class DistanceSensor(Sensob):
+    
+    def __init__(self, distanceSensor):
+        super.__init__([distanceSensor])
 
-
+    def update(self):
+        """Reads from the ultrasonic sensor and sets the value to the distance in centimeters"""
+        super().update()
+        self.value = self.sensor_values[0]
