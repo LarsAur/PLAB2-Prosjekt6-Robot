@@ -94,10 +94,10 @@ class DoNotCrash(Behavior):
         """Setter aktivt flagg, handler"""
         if self.consider_deactivation():
             self.active_flag = False
-            self.bbcon.activate_behavior(self)
+            self.bbcon.deactivate_behavior(self)
         else:
             self.active_flag = True
-            self.bbcon.deactivate_behavior(self)
+            self.bbcon.activate_behavior(self)
 
         self.sense_and_act()
         self.weight = self.match_degree * DoNotCrash.PRIORITY
