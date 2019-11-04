@@ -1,5 +1,6 @@
 """Ulike typer oppførsler roboten kan velge"""
 
+
 class Behavior():
     """Superklassen til oppførselen"""
 
@@ -77,35 +78,36 @@ class DoNotCrash(Behavior):
 
     def consider_deactivation(self):
         """Deaktiveres når rødt objekt foran"""
-                    
-        if self.sensob[0].value < 8 & self.sensob[1].value == True: #dersom både objekt nærme og rødt objekt
-        return True
+
+        # dersom både objekt nærme og rødt objekt
+        if self.sensob[0].value < 8 & self.sensob[1].value == True:
+            return True
         return False
 
     def consider_activation(self):
         """Aktiv dersom ikke rødt objekt foran"""
-        if self.sensob[1].value == False: #dersom både objekt nærme og rødt objekt
+        if self.sensob[1].value == False:  # dersom både objekt nærme og rødt objekt
             return True
         return False
 
     def update(self):
-    """Setter aktivt flagg, handler"""
+        """Setter aktivt flagg, handler"""
         if self.consider_deactivation():
             self.active_flag = False
         else:
             self.active_flag = True
-        
-            self.sense_and_act()
-            self.weight = self.match_degree * DoNotCrash.PRIORITY
+
+        self.sense_and_act()
+        self.weight = self.match_degree * DoNotCrash.PRIORITY
 
     def sense_and_act(self):
-    """Fortsetter å kjøre dersom rødt objekt eller ingenting foran"""
+        """Fortsetter å kjøre dersom rødt objekt eller ingenting foran"""
         distance = self.sensob[0].value
-        
+
         if self.active_flag:
-            self.motor_recommendations = ('R', 45)  #snur unna
+            self.motor_recommendations = ('R', 45)  # snur unna
             self.match_degree = 3
-    
+
         else:
             self.motor_recommendations = ('F', 0.2)
             self.match_degree = 1
@@ -118,7 +120,7 @@ class ChaseObject(Behavior):
 
     def consider_activation(self):
         """Aktiveres dersom det er røde objekter nærme"""
-        if self.sensob[0] < 8 & self.sensob[1] == True: #dersom både objekt nærme og rødt objekt
+        if self.sensob[0] < 8 & self.sensob[1] == True:  # dersom både objekt nærme og rødt objekt
             return True
         return False
 
@@ -137,11 +139,10 @@ class ChaseObject(Behavior):
         self.sense_and_act()
         self.weight = self.match_degree * ChaseObject.PRIORITY
 
-
     def sense_and_act(self):
         """Hvis ser objektet, kjør"""
-        if self.active_flag: #dersom aktiv: kjør
+        if self.active_flag:  # dersom aktiv: kjør
             self.motor_recommendations = ('F', 0.2)
             self.match_degree = 3
-        else:   #dersom ikke aktiv: dårlig match
+        else:  # dersom ikke aktiv: dårlig match
             self.match_degree = 1

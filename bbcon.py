@@ -1,5 +1,6 @@
 from project6_supply.reflectance_sensors import ReflectanceSensors
 from project6_supply.ultrasonic import Ultrasonic
+from project6_supply.camera import Camera
 from project6_supply.zumo_button import ZumoButton
 from project6_supply.motors import Motors
 from Behavior import *
@@ -69,12 +70,14 @@ if __name__ == "__main__":
     print("DEBUG: init sensors")
     reflectance_sensor = ReflectanceSensors(True) # True for auto calibration
     ultrasonic_sensor = Ultrasonic()
+    camara_sensor = Camera()
 
     #Creating sensobs
     print("DEBUG: init sensobs")
     line_sensob = LineDetector(reflectance_sensor)
     distance_sensob = DistanceSensor(ultrasonic_sensor)
-
+    camera_sensob = Camera()
+    
     #Adding sensobs to controller
     print("DEBUG: appending sensobs")
     controller.sensobs.append(line_sensob)
@@ -83,7 +86,7 @@ if __name__ == "__main__":
     #Creating behaviors
     print("DEBUG: creating behaviors")
     swl = StayWithinLines(controller, line_sensob)
-    dnc = DoNotCrash(controller, distance_sensob)
+    dnc = DoNotCrash(controller, [distance_sensob])
 
     #Adding behaviors
     print("DEBUG: adding behaviors")

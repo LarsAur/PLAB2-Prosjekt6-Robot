@@ -13,7 +13,7 @@ class Camera():
     def get_value(self):  return self.value
 
     def update(self):
-        self.sensor_get_value()
+        self.get_value()
         return self.value
 
     def reset(self):
