@@ -46,7 +46,6 @@ class LineDetector(Sensob):
             self.value = "R"
         else:
             self.value = "N"
-            print("NO line")
 
 class DistanceSensor(Sensob):
     """ """

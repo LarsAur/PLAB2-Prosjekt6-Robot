@@ -73,7 +73,7 @@ class DoNotCrash(Behavior):
 
     PRIORITY = 3
 
-      # tar in US som måler avstand i cm
+    # tar in US som måler avstand i cm
 
     def consider_deactivation(self):
         """Deaktiveres når rødt objekt foran"""
