@@ -1,6 +1,4 @@
 """The sensob (sensor object) superclass and subclass"""
-import numpy as np
-
 
 class Sensob:
     """The sensob superclass"""
@@ -59,7 +57,7 @@ class CheckColor(Sensob):
     """Takes a picture and evaluates it"""
 
     def __init__(self, cameraSensor, color):
-        super.__init__([cameraSensor])
+        super().__init__([cameraSensor])
         self.color = color  # the color to search for
         self.color_array = [0, 0, 0]  # "red", "green", "blue"
 
@@ -99,7 +97,7 @@ class CheckColor(Sensob):
 class DistanceSensor(Sensob):
 
     def __init__(self, distanceSensor):
-        super.__init__([distanceSensor])
+        super().__init__([distanceSensor])
 
     def update(self):
         """Reads from the ultrasonic sensor and sets the value to the distance in centimeters"""

@@ -66,32 +66,39 @@ if __name__ == "__main__":
     controller.motobs.append(motob)
 
     #Creating sensor objects
+    print("DEBUG: init sensors")
     reflectance_sensor = ReflectanceSensors(True) # True for auto calibration
     ultrasonic_sensor = Ultrasonic()
 
     #Creating sensobs
+    print("DEBUG: init sensobs")
     line_sensob = LineDetector(reflectance_sensor)
     distance_sensob = DistanceSensor(ultrasonic_sensor)
 
     #Adding sensobs to controller
+    print("DEBUG: appending sensobs")
     controller.sensobs.append(line_sensob)
     controller.sensobs.append(distance_sensob)
 
     #Creating behaviors
+    print("DEBUG: creating behaviors")
     swl = StayWithinLines(controller, line_sensob)
     dnc = DoNotCrash(controller, distance_sensob)
 
     #Adding behaviors
+    print("DEBUG: adding behaviors")
     controller.add_behavior(swl)
     controller.add_behavior(dnc)
    
     #Adding active behaviors
+    print("DEBUG: activating behaviors")
     controller.activate_behavior(swl)
     controller.activate_behavior(dnc)
 
     #Starts the run
     for i in range(20):
         if not controller.halt:
+            print("run")
             controller.run_one_timestep()
 
     controller.motobs[0].update(('F', 0)) # turns of motor after the program is finished
