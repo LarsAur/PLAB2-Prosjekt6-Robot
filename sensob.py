@@ -61,14 +61,15 @@ class CheckColor(Sensob):
     def __init__(self, cameraSensor, color):
         super.__init__(cameraSensor)
         self.color = color  # the color to search for
-        self.color_array = []
+        self.color_array = [0, 0, 0]  # "red", "green", "blue"
 
     def update(self):
         """Via the superclass update we now have an Image or Imager CHECK THIS
         object in self.sensor_values"""
         super().update()
-
-    def color_check(self):
+        colors = {0: "red",
+                  1: "green",
+                  2: "blue"}
         """A help-method to check for color"""
         image_object = self.sensor_values  # to shorten from self.sensor_values
         resized_image = image_object.resize(30, 30)
@@ -78,21 +79,13 @@ class CheckColor(Sensob):
             for j in range(wta_image.ymax):
                 r, g, b = wta_image.getpixel(i, j)
                 if r > 40:
-                    self.color_array.append(0)
+                    self.color_array[0] += 1
                 elif g > 40:
-                    self.color_array.append(1)
+                    self.color_array[1] += 1
                 elif b > 40:
-                    self.color_array.append(2)
-        occurrences = np.bincount(self.color_array) #
-        self.color_array = [] heisann bård
-        if np.argmax(occurrences) == 0:
-            found_color = "red"
-        elif np.argmax(occurrences) == 1:
-            found_color = "green"
-        elif np.argmax(occurrences) == 2:
-            found_color = "blue"
-
-        if found_color == self.color:
+                    self.color_array[2] += 1
+        found_color = self.color_array.index(max(self.color_array))
+        if colors[found_color] == self.color:
             return True
         else:
             return False
