@@ -148,7 +148,7 @@ class ChaseObject(Behavior):
             self.active_flag = True
             self.bbcon.redObject = True
 
-        elif self.consider_deactivation():
+        else:
             self.active_flag = False
             self.bbcon.redObject = False
 
