@@ -52,15 +52,17 @@ class BBCON:
         for motob in self.motobs:
             motob.update(action)
 
-        time.sleep(.5)
+        time.sleep(.2)
 
         for sensob in self.sensobs:
+            print("RESET ALL")
             sensob.reset()
 
 if __name__ == "__main__":
     controller = BBCON()
     zumobutton = ZumoButton()
     zumobutton.wait_for_press()
+    
     #Creating motob and adding Motors to the motob
     motob = Motob()
     motob.motors.append(Motors())
@@ -68,7 +70,7 @@ if __name__ == "__main__":
 
     #Creating sensor objects
     print("DEBUG: init sensors")
-    reflectance_sensor = ReflectanceSensors(True) # True for auto calibration
+    reflectance_sensor = ReflectanceSensors(False) # True for auto calibration
     ultrasonic_sensor = Ultrasonic()
     camara_sensor = Camera()
 
@@ -103,7 +105,7 @@ if __name__ == "__main__":
     controller.activate_behavior(chs)
 
     #Starts the run
-    for i in range(20):
+    for i in range(100):
         if not controller.halt:
             print("run")
             controller.run_one_timestep()

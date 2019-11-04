@@ -25,6 +25,8 @@ class Sensob:
         """Resets all values to none, such that they can be updated again"""
         self.sensor_values = None
         self.value = None
+        for sensor in self.sensors:
+            sensor.reset()
 
 
 # ****** LineDetector subclass ******
@@ -43,10 +45,9 @@ class LineDetector(Sensob):
             self.sensor_values = []
             for sensor in self.sensors:
                 # Checks if the sensors value have
-                print("DEBUG: ", sensor.get_value())
                 if not sensor.get_value():
+                    print("DEBUG: updating relfectance sensors")
                     sensor.update()
-                    print("DEBUG: updated reflectance sensor")
                 self.sensor_values.append(sensor.get_value())
 
         # converting value of the sensors (low number is black)
@@ -63,7 +64,6 @@ class LineDetector(Sensob):
 
         print("DEBUG: reflectance sensor: ", self.sensor_values[0])
         print("DEBUG: line at: ", self.value)
-
 
 # ****** CheckColor ******
 
