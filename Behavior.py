@@ -115,7 +115,7 @@ class DoNotCrash(Behavior):
                 self.motor_recommendations = ('F', 0.2)
                 self.match_degree = 3
 
-            if self.bbcon.closeObject:
+            else:
                 if self.bbcon.redObject:  # dersom objektet er rødt, kjør
                     self.motor_recommendations = ('F', 0.2)
                     self.match_degree = 0
