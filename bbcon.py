@@ -114,6 +114,5 @@ if __name__ == "__main__":
     #Starts the run
     while not controller.halt:
         controller.run_one_timestep()
-        print("DEBUG: redObject: ", controller.redObject)
         print("-----------------------------------------")
     controller.motobs[0].update(('F', 0)) # turns of motor after the program is finished
