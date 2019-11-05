@@ -8,7 +8,7 @@ class Motob:
         self.operationalize()
 
     def operationalize(self):
-        rot_const = 0.5 # Constant to calibrate rotation
+        rot_const = 1/180 # Constant to calibrate rotation
         dist_const = 1 # Constants to calibrate distance
         # ('F', s) Forward distance
         # ('B', s) Backward distance
@@ -33,4 +33,4 @@ class Motob:
             rotation_direction = 1 if letter == 'R' else -1
             speed = rotation_direction * val * rot_const
             for motor in self.motors:
-                motor.set_value((speed, -speed))
+                motor.set_value((speed, -speed), 0.5)
