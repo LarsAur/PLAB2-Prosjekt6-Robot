@@ -49,7 +49,7 @@ class BBCON:
         for behavior in self.active_behaviors:
             behavior.sensob.update()
 
-        for behavior in self.active_behaviors:
+        for behavior in self.behaviors:
             behavior.update()
 
         halt, action = self.arbitrator.choose_action()
