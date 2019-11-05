@@ -55,21 +55,23 @@ class StayWithinLines(Behavior):
 
         if value == 'L':
             self.motor_recommendations = ('R', 30)
-            self.match_degree = 4
+            self.match_degree = 10
             if self.bbcon.redObject:
                 self.halt_request = True
 
         elif value == 'R':
             self.motor_recommendations = ('L', 30)
-            self.match_degree = 4
+            self.match_degree = 10
             if self.bbcon.redObject:
                 self.halt_request = True
 
+
         elif value == 'F':
             self.motor_recommendations = ('R', 90)
-            self.match_degree = 4
+            self.match_degree = 10
             if self.bbcon.redObject:
                 self.halt_request = True
+
 
         elif value == 'N':
             self.motor_recommendations = ('F', 0.2)
@@ -80,7 +82,7 @@ class StayWithinLines(Behavior):
 class DoNotCrash(Behavior):
     """Hindrer at roboten kjører inn i ting"""
 
-    PRIORITY = 3
+    PRIORITY = 2
 
     # tar in US som måler avstand i cm
 
@@ -184,7 +186,7 @@ class ChaseObject(Behavior):
             if self.sensob[1].value: #dersom rødt objekt: kjører, setter redObject til true
                 self.bbcon.redObject = True
                 self.motor_recommendations = ('F', 0.2)
-                self.match_degree = 10
+                self.match_degree = 8
             
             else: #dersom ikke rødt: stopper, setter redObject til false
                 self.bbcon.redObject = False
