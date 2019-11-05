@@ -147,8 +147,8 @@ class ChaseObject(Behavior):
     
     def consider_activation(self):
         """Aktiveres dersom det er røde objekter nærme"""
-        # if self.bbcon.redObject:
-        #    return True
+        if self.bbcon.redObject:
+            return True
         
         if self.sensob[0].value < 12:
             print("DEBUG: activated camera")
@@ -156,8 +156,8 @@ class ChaseObject(Behavior):
         return False
 
     def consider_deactivation(self):
-        # if self.bbcon.redObject:
-        #   return False
+        if self.bbcon.redObject:
+            return False
         
         if self.sensob[0].value > 12:
             return True
@@ -170,7 +170,7 @@ class ChaseObject(Behavior):
             self.active_flag = True
             self.bbcon.activate_behavior(self)
 
-        elif self.consider_deactivation():
+        else:
             self.active_flag = False
             self.bbcon.redObject = False
             self.bbcon.deactivate_behavior(self)
@@ -195,7 +195,5 @@ class ChaseObject(Behavior):
 
         #dersom ikke aktiv: dårlig match, stopper
         else:
-            self.bbcon.redObject = False
             self.motor_recommendations = ('F', 0)
             self.match_degree = 1
-
