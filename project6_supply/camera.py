@@ -15,6 +15,7 @@ class Camera():
         return self.value
 
     def reset(self):
+        print("DEBUG: camera.py reset:")
         self.value = None
 
     def get_value(self):

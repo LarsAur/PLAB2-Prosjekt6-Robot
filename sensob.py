@@ -98,8 +98,10 @@ class CheckColor(Sensob):
                     self.color_array[1] += 1
                 elif b > 40:
                     self.color_array[2] += 1
+        print("DEBUG: pixel colors:", self.color_array)
         found_color = self.color_array.index(max(self.color_array))
-        print("DEBUG: processed camera image:", wta_image.image)
+        # print("DEBUG: processed camera image: ", wta_image.image)
+        print("DEBUG: found color: ", found_color)
         if colors[found_color] == self.color:
             self.value = True
         else:
