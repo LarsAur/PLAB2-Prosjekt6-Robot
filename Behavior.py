@@ -89,7 +89,6 @@ class DoNotCrash(Behavior):
             return False
         return True
 
-
     def update(self):
         """Setter aktivt flagg, handler"""
         if self.consider_deactivation():
@@ -107,13 +106,12 @@ class DoNotCrash(Behavior):
 
         distance = self.sensob.value
 
-        if distance < 6:
+        if distance < 12:
 
             print("CLOSE")
 
             if not self.bbcon.closeObject:
                 self.bbcon.closeObject = True
-                # fortsetter å kjøre, men med høy pri
                 self.motor_recommendations = ('F', 0)
                 self.match_degree = 3
 
@@ -127,6 +125,7 @@ class DoNotCrash(Behavior):
                     self.match_degree = 3
         else:
             # hvis det ikke er noe foran, kjør
+            self.bbcon.closeObject = False
             self.motor_recommendations = ('F', 0.2)
             self.match_degree = 1
 
@@ -138,7 +137,8 @@ class ChaseObject(Behavior):
 
     def consider_activation(self):
         """Aktiveres dersom det er røde objekter nærme"""
-        if self.bbcon.closeObject & self.sensob.value == True: #dersom både objekt nærme og rødt objekt
+        if self.bbcon.closeObject: #dersom både objekt nærme
+            print("DEBUG: activated camera")
             return True
         return False
 

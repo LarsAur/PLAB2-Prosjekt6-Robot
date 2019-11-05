@@ -61,7 +61,6 @@ class LineDetector(Sensob):
             else:
                 self.value = "N"
 
-        
 
 # ****** CheckColor ******
 
@@ -86,6 +85,7 @@ class CheckColor(Sensob):
                   2: "blue"}
         """A help-method to check for color"""
         image_object = Imager(image=self.sensor_values)  # to shorten from self.sensor_values
+        print("DEBUG: raw camera image: ", image_object.image)
         resized_image = image_object.resize(30, 30)
         wta_image = resized_image.map_color_wta()  # checks the difference between the rgb values. With a base threshold of 0.34. If no image is input, uses self.image
         wta_image.get_image_dims()
@@ -99,6 +99,7 @@ class CheckColor(Sensob):
                 elif b > 40:
                     self.color_array[2] += 1
         found_color = self.color_array.index(max(self.color_array))
+        print("DEBUG: processed camera image:", wta_image.image)
         if colors[found_color] == self.color:
             self.value = True
         else:
