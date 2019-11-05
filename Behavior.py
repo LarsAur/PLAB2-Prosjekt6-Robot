@@ -185,5 +185,6 @@ class ChaseObject(Behavior):
                 self.match_degree = 0
 
         #dersom ikke aktiv: dårlig match, stopper
-        self.motor_recommendations = ('F', 0)
-        self.match_degree = 1
+        else:
+            self.motor_recommendations = ('F', 0)
+            self.match_degree = 1
