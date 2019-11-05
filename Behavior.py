@@ -51,7 +51,7 @@ class StayWithinLines(Behavior):
     def sense_and_act(self):
         """Beregner riktig oppførsel og setter motor_recommendations"""
 
-        value = self.sensob.value
+        value = self.sensob[0].value
 
         if value == 'L':
             self.motor_recommendations = ('R', 30)
@@ -104,7 +104,7 @@ class DoNotCrash(Behavior):
     def sense_and_act(self):
         """Fortsetter å kjøre dersom rødt objekt eller ingenting foran"""
 
-        distance = self.sensob.value
+        distance = self.sensob[0].value
 
         if distance < 12:
 

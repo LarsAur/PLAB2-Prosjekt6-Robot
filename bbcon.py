@@ -47,7 +47,8 @@ class BBCON:
         #    sensob.update()
 
         for behavior in self.active_behaviors:
-            behavior.sensob.update()
+            for sensob in behavior.sensob:
+                sensob.update()
 
         for behavior in self.behaviors:
             behavior.update()
@@ -94,8 +95,8 @@ if __name__ == "__main__":
 
     #Creating behaviors
     print("DEBUG: creating behaviors")
-    swl = StayWithinLines(controller, line_sensob)
-    dnc = DoNotCrash(controller, distance_sensob)
+    swl = StayWithinLines(controller, [line_sensob])
+    dnc = DoNotCrash(controller, [distance_sensob])
     chs = ChaseObject(controller, [distance_sensob, color_sensob])
 
     #Adding behaviors
