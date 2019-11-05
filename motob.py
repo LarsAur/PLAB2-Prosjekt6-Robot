@@ -8,7 +8,7 @@ class Motob:
         self.operationalize()
 
     def operationalize(self):
-        rot_const = 90/180  # Constant to calibrate rotation
+        rot_const = 45/180  # Constant to calibrate rotation
         dist_const = 1  # Constants to calibrate distance
         # ('F', s) Forward distance
         # ('B', s) Backward distance
