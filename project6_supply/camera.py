@@ -4,7 +4,7 @@ from PIL import Image
 
 class Camera():
 
-    def __init__(self, img_width=30, img_height=30, img_rot=0):
+    def __init__(self, img_width=50, img_height=50, img_rot=0):
         self.value = None
         self.img_width = img_width
         self.img_height = img_height
@@ -15,11 +15,9 @@ class Camera():
         return self.value
 
     def reset(self):
-        print("DEBUG: camera.py reset:")
         self.value = None
 
     def get_value(self):
-        print("CAMERA: Picture")
         # This is a OS call that takes a image and makes it accessible to PIL operations in the same directory
         os.system('raspistill -t 1 -o image.png -w "' + str(self.img_width) + '" -h "' + str(self.img_height) + '" -rot "' + str(self.img_rot) + '"')
         # Open the image just taken by raspicam
