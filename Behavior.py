@@ -134,25 +134,31 @@ class ChaseObject(Behavior):
     """Følger etter røde objekter"""
 
     PRIORITY = 1
-
+    #sensobs: [US sensor, kamera]
+    
     def consider_activation(self):
         """Aktiveres dersom det er røde objekter nærme"""
-        if self.bbcon.closeObject: #dersom både objekt nærme
+        if self.bbcon.redObject:
+            return True
+        
+        if self.sensob[0].value < 12:
             print("DEBUG: activated camera")
             return True
         return False
 
     def consider_deactivation(self):
-        if not self.bbcon.closeObject: #dersom ikke objekt nærme - deaktiveres
+        if self.bbcon.redObject:
+            return False
+        
+        if self.sensob[0].value > 12:
             return True
         return False
 
     def update(self):
         """Setter aktivt flagg, handler"""
         if self.consider_activation():
-
+            
             self.active_flag = True
-            self.bbcon.redObject = True
             self.bbcon.activate_behavior(self)
 
         else:
@@ -166,9 +172,18 @@ class ChaseObject(Behavior):
     def sense_and_act(self):
         """Hvis ser objektet, kjør"""
 
-        if self.active_flag: #dersom aktiv: kjør
-            self.motor_recommendations = ('F', 0.2)
-            self.match_degree = 3
+        if self.active_flag:
+            
+            if self.sensob[1].value: #dersom rødt objekt: kjører, setter redObject til true
+                self.bbcon.redObject = True
+                self.motor_recommendations = ('F', 0.2)
+                self.match_degree = 3
+            
+            else: #dersom ikke rødt: stopper, setter redObject til false
+                self.bbcon.redObject = False
+                self.motor_recommendations = ('F', 0)
+                self.match_degree = 0
 
-        else:   #dersom ikke aktiv: dårlig match
-            self.match_degree = 1
+        #dersom ikke aktiv: dårlig match, stopper
+        self.motor_recommendations = ('F', 0)
+        self.match_degree = 1
