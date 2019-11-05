@@ -56,18 +56,25 @@ class StayWithinLines(Behavior):
         if value == 'L':
             self.motor_recommendations = ('R', 30)
             self.match_degree = 4
+            if self.bbcon.redObject:
+                self.halt_request = True
 
         elif value == 'R':
             self.motor_recommendations = ('L', 30)
             self.match_degree = 4
+            if self.bbcon.redObject:
+                self.halt_request = True
 
         elif value == 'F':
             self.motor_recommendations = ('R', 90)
             self.match_degree = 4
+            if self.bbcon.redObject:
+                self.halt_request = True
 
         elif value == 'N':
             self.motor_recommendations = ('F', 0.2)
             self.match_degree = 1
+            
 
 
 class DoNotCrash(Behavior):
