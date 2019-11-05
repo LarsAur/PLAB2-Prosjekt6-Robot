@@ -76,7 +76,7 @@ if __name__ == "__main__":
 
     #Creating sensor objects
     print("DEBUG: init sensors")
-    reflectance_sensor = ReflectanceSensors(False) # True for auto calibration
+    reflectance_sensor = ReflectanceSensors(True) # True for auto calibration
     ultrasonic_sensor = Ultrasonic()
     camara_sensor = Camera()
 
