@@ -177,7 +177,7 @@ class ChaseObject(Behavior):
             if self.sensob[1].value: #dersom rødt objekt: kjører, setter redObject til true
                 self.bbcon.redObject = True
                 self.motor_recommendations = ('F', 0.2)
-                self.match_degree = 3
+                self.match_degree = 10
             
             else: #dersom ikke rødt: stopper, setter redObject til false
                 self.bbcon.redObject = False
