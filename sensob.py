@@ -77,12 +77,12 @@ class CheckColor(Sensob):
         """Via the superclass update we now have an Image or Imager CHECK THIS
         object in self.sensor_values"""
         
-        if not self.sensors[0].value:
-            self.sensor_values = self.sensors[0].update()
+        self.sensor_values = self.sensors[0].update()
 
         colors = {0: "red",
                   1: "green",
                   2: "blue"}
+        
         """A help-method to check for color"""
         image_object = Imager(image=self.sensor_values)  # to shorten from self.sensor_values
         print("DEBUG: raw camera image: ", image_object.image)
