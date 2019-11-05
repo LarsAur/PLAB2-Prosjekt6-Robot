@@ -96,7 +96,7 @@ if __name__ == "__main__":
     print("DEBUG: creating behaviors")
     swl = StayWithinLines(controller, line_sensob)
     dnc = DoNotCrash(controller, distance_sensob)
-    chs = ChaseObject(controller, color_sensob)
+    chs = ChaseObject(controller, [distance_sensob, color_sensob])
 
     #Adding behaviors
     print("DEBUG: adding behaviors")
